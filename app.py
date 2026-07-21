@@ -1,4 +1,4 @@
-HTML_TEMPLATE = """<!DOCTYPE html>
+const HTML_TEMPLATE = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -84,7 +84,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
     <!-- 3. Elegant Hero Section -->
     <section class="relative min-h-[500px] flex items-center justify-center py-16 px-4 bg-zinc-950 overflow-hidden">
-        <!-- Ambient Radial Gradient Background -->
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(249,115,22,0.1)_0,transparent_60%)]"></div>
         <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
             <!-- Text Content -->
@@ -365,33 +364,26 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </footer>
 
-    <!-- ============================================== -->
     <!-- SLIDE-OVER INTERACTIVE CART DRAWER -->
-    <!-- ============================================== -->
     <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
         <div class="absolute inset-0 overflow-hidden">
-            <!-- Overlay background -->
             <div id="cartOverlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"></div>
             <div class="pointer-events-none fixed inset-y-0 left-0 flex max-w-full pr-10">
                 <div class="pointer-events-auto w-screen max-w-md bg-zinc-950 border-r border-zinc-900 flex flex-col">
-                    <!-- Drawer Header -->
                     <div class="px-4 py-6 sm:px-6 border-b border-zinc-900 flex items-center justify-between">
                         <h2 class="text-lg font-bold text-white flex items-center gap-2">
                             حقيبة تسوقك <span id="cartCountLabel" class="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">0 عناصر</span>
                         </h2>
                         <button id="cartCloseBtn" class="text-zinc-500 hover:text-white text-xl p-1 focus:outline-none">✕</button>
                     </div>
-                    <!-- Cart Items List Container -->
                     <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
                         <div id="cartItemsList" class="space-y-6">
-                            <!-- Empty Cart Placeholder -->
                             <div id="cartEmptyPlaceholder" class="text-center py-16 space-y-4">
                                 <span class="text-5xl block">🛍️</span>
                                 <p class="text-zinc-500 text-xs">سلتك لا تزال فارغة حالياً</p>
                             </div>
                         </div>
                     </div>
-                    <!-- Footer Section -->
                     <div class="border-t border-zinc-900 px-4 py-6 sm:px-6 bg-zinc-900/10 space-y-4">
                         <div class="flex justify-between text-base font-medium text-white">
                             <span>المجموع الكلي:</span>
@@ -407,25 +399,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- ============================================== -->
     <!-- CASH ON DELIVERY CHECKOUT FORM MODAL -->
-    <!-- ============================================== -->
     <div id="checkoutModal" class="fixed inset-0 z-50 overflow-y-auto hidden flex items-center justify-center p-4">
-        <!-- Modal Overlay -->
         <div id="checkoutOverlay" class="fixed inset-0 bg-black/90 backdrop-blur-md"></div>
-        <!-- Modal Wrapper -->
         <div class="relative bg-zinc-950 border border-zinc-900 w-full max-w-lg rounded-2xl overflow-hidden p-6 sm:p-8 z-10 space-y-6">
             <div class="flex justify-between items-center border-b border-zinc-900 pb-4">
                 <h3 class="text-xl font-bold text-white">شحن وتأكيد طلبك (COD)</h3>
                 <button id="closeCheckoutBtn" class="text-zinc-500 hover:text-white text-lg">✕</button>
             </div>
-            <!-- Progress Stepper -->
             <div class="flex items-center justify-between text-xs text-zinc-500 border-b border-zinc-900 pb-4">
                 <div class="text-primary font-semibold">1. بيانات التوصيل</div>
                 <div>➔</div>
                 <div>2. تأكيد وشحن الطلب</div>
             </div>
-            <!-- Shipping Form -->
             <form id="codForm" onsubmit="handleCheckoutSubmit(event)" class="space-y-4">
                 <div class="space-y-1">
                     <label class="text-xs text-zinc-400 font-medium">الاسم الكامل لمتلقي الشحنة *</label>
@@ -453,14 +439,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         </div>
     </div>
 
-    <!-- ============================================== -->
     <!-- CUSTOM FLOATING TOAST NOTIFICATIONS (NO ALERTS) -->
-    <!-- ============================================== -->
     <div id="toastContainer" class="fixed top-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
-    <!-- ============================================== -->
     <!-- INLINE CART INTERACTIVITY JAVASCRIPT -->
-    <!-- ============================================== -->
     <script>
         // Store Local Cart State
         let cart = [];
@@ -469,22 +451,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-            toast.className = `pointer-events-auto bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl flex items-center gap-3 shadow-2xl transition-all duration-300 transform translate-x-12 opacity-0 text-xs text-white max-w-sm`;
+            toast.className = 'pointer-events-auto bg-zinc-900 border border-zinc-800 px-4 py-3 rounded-xl flex items-center gap-3 shadow-2xl transition-all duration-300 transform translate-x-12 opacity-0 text-xs text-white max-w-sm';
             
             const icon = type === 'success' ? '✅' : 'ℹ️';
-            toast.innerHTML = `
-                <span>${icon}</span>
-                <div class="flex-grow font-medium">${message}</div>
+            toast.innerHTML = \`
+                <span>\${icon}</span>
+                <div class="flex-grow font-medium">\${message}</div>
                 <button onclick="this.parentElement.remove()" class="text-zinc-600 hover:text-zinc-400 ml-1">✕</button>
-            `;
+            \`;
             container.appendChild(toast);
             
-            // Trigger animation
             setTimeout(() => {
                 toast.classList.remove('translate-x-12', 'opacity-0');
             }, 10);
 
-            // Auto-dismiss after 4 seconds
             setTimeout(() => {
                 toast.classList.add('translate-x-12', 'opacity-0');
                 setTimeout(() => toast.remove(), 300);
@@ -497,7 +477,6 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const icon = btn.querySelector('.faq-icon');
             const isHidden = content.classList.contains('hidden');
             
-            // Close all items
             document.querySelectorAll('.faq-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.faq-icon').forEach(el => el.textContent = '＋');
 
@@ -519,75 +498,90 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             });
 
             // Update active filter button styling
-            const buttons = document.querySelectorAll('#products button');
+            const buttons = document.querySelectorAll('#products button[onclick^="filterProducts"]');
             buttons.forEach(btn => {
-                if (btn.getAttribute('onclick').includes(category)) {
-                    btn.className = "bg-primary text-black px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors";
+                if (btn.getAttribute('onclick').includes(\`'\${category}'\`)) {
+                    btn.className = 'bg-primary text-black px-5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors';
                 } else {
-                    btn.className = "bg-zinc-900 text-zinc-400 hover:text-white px-5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors";
+                    btn.className = 'bg-zinc-900 text-zinc-400 hover:text-white px-5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors';
                 }
             });
         }
 
-        // Add Product to Cart State
+        // Add Product to Cart
         function addToCart(title, price, image) {
-            const existingIndex = cart.findIndex(item => item.title === title);
-            if (existingIndex > -1) {
-                cart[existingIndex].qty += 1;
+            const existingItem = cart.find(item => item.title === title);
+            if (existingItem) {
+                existingItem.quantity += 1;
             } else {
-                cart.push({ title, price, image, qty: 1 });
+                cart.push({ title, price, image, quantity: 1 });
             }
             updateCartUI();
-            showToast(`تمت إضافة "${title}" بنجاح إلى حقيبتك!`);
+            showToast(\`تمت إضافة "\${title}" إلى السلة بنجاح\`);
         }
 
-        // Update Cart Quantities
-        function changeQty(index, amount) {
-            cart[index].qty += amount;
-            if (cart[index].qty <= 0) {
-                cart.splice(index, 1);
-            }
-            updateCartUI();
-        }
-
-        // Update Cart Badge, Drawer list, and Prices
+        // Update Cart UI Elements
         function updateCartUI() {
-            const countBadge = document.getElementById('cartCountBadge');
-            const countLabel = document.getElementById('cartCountLabel');
-            const itemsList = document.getElementById('cartItemsList');
-            const totalPrice = document.getElementById('cartTotalPrice');
-            const emptyPlaceholder = document.getElementById('cartEmptyPlaceholder');
+            const cartItemsList = document.getElementById('cartItemsList');
+            const cartCountBadge = document.getElementById('cartCountBadge');
+            const cartCountLabel = document.getElementById('cartCountLabel');
+            const cartTotalPrice = document.getElementById('cartTotalPrice');
+            const modalCheckoutTotal = document.getElementById('modalCheckoutTotal');
 
-            // Calculate totals
-            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
-            const sumPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalSum = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
-            // Update UI Counters
-            countBadge.textContent = totalQty;
-            countLabel.textContent = `${totalQty} عنصر`;
-            totalPrice.textContent = `${sumPrice} ريال`;
+            cartCountBadge.textContent = totalCount;
+            cartCountLabel.textContent = \`\${totalCount} عناصر\`;
+            cartTotalPrice.textContent = \`\${totalSum} ريال\`;
+            if (modalCheckoutTotal) {
+                modalCheckoutTotal.textContent = \`المجموع: \${totalSum} ريال\`;
+            }
 
-            // Draw Items List
             if (cart.length === 0) {
-                itemsList.innerHTML = '';
-                itemsList.appendChild(emptyPlaceholder);
-            } else {
-                emptyPlaceholder.remove();
-                itemsList.innerHTML = cart.map((item, idx) => `
-                    <div class="flex items-center gap-4 bg-zinc-900/30 border border-zinc-900 p-3 rounded-xl">
-                        <img src="${item.image}" alt="${item.title}" class="w-16 h-16 object-cover rounded-lg border border-zinc-800">
-                        <div class="flex-grow">
-                            <h4 class="text-xs font-bold text-white">${item.title}</h4>
-                            <span class="text-xs text-primary block mt-1">${item.price} ريال</span>
-                            <div class="flex items-center gap-2 mt-2">
-                                <button onclick="changeQty(${idx}, -1)" class="w-6 h-6 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center text-xs font-bold">-</button>
-                                <span class="text-xs text-white px-2 font-mono">${item.qty}</span>
-                                <button onclick="changeQty(${idx}, 1)" class="w-6 h-6 rounded-full bg-zinc-800 hover:bg-zinc-700 text-white flex items-center justify-center text-xs font-bold">+</button>
-                            </div>
-                        </div>
-                        <button onclick="changeQty(${idx}, -${item.qty})" class="text-zinc-600 hover:text-zinc-400 text-sm font-semibold">✕</button>
+                cartItemsList.innerHTML = \`
+                    <div id="cartEmptyPlaceholder" class="text-center py-16 space-y-4">
+                        <span class="text-5xl block">🛍️</span>
+                        <p class="text-zinc-500 text-xs">سلتك لا تزال فارغة حالياً</p>
                     </div>
-                `).join('');
+                \`;
+                return;
+            }
+
+            cartItemsList.innerHTML = cart.map((item, index) => \`
+                <div class="flex items-center justify-between gap-4 border-b border-zinc-900 pb-4">
+                    <img src="\${item.image}" alt="\${item.title}" class="w-16 h-16 object-cover rounded-xl border border-zinc-800">
+                    <div class="flex-1">
+                        <h4 class="text-xs font-bold text-white line-clamp-1">\${item.title}</h4>
+                        <p class="text-xs text-primary font-semibold mt-1">\${item.price} ريال</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="updateQuantity(\${index}, -1)" class="w-6 h-6 bg-zinc-900 text-zinc-300 rounded hover:bg-zinc-800 text-xs font-bold">-</button>
+                            <span class="text-xs text-white px-2 font-bold">\${item.quantity}</span>
+                            <button onclick="updateQuantity(\${index}, 1)" class="w-6 h-6 bg-zinc-900 text-zinc-300 rounded hover:bg-zinc-800 text-xs font-bold">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(\${index})" class="text-zinc-600 hover:text-red-500 text-sm p-1">🗑️</button>
+                </div>
+            \`).join('');
+        }
+
+        // Update Item Quantity
+        function updateQuantity(index, change) {
+            if (cart[index]) {
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
+                updateCartUI();
+            }
+        }
+
+        // Remove Item from Cart
+        function removeFromCart(index) {
+            if (cart[index]) {
+                showToast(\`تم حذف "\${cart[index].title}" من السلة\`, 'info');
+                cart.splice(index, 1);
+                updateCartUI();
             }
         }
 
@@ -597,75 +591,57 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         const cartCloseBtn = document.getElementById('cartCloseBtn');
         const cartOverlay = document.getElementById('cartOverlay');
 
-        cartToggleBtn.addEventListener('click', () => cartDrawer.classList.remove('hidden'));
-        cartCloseBtn.addEventListener('click', () => cartDrawer.classList.add('hidden'));
-        cartOverlay.addEventListener('click', () => cartDrawer.classList.add('hidden'));
+        function openCart() { cartDrawer.classList.remove('hidden'); }
+        function closeCart() { cartDrawer.classList.add('hidden'); }
 
-        // Checkout Trigger Modal
-        const checkoutBtn = document.getElementById('checkoutBtn');
+        cartToggleBtn.addEventListener('click', openCart);
+        cartCloseBtn.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        // Checkout Modal Controls
         const checkoutModal = document.getElementById('checkoutModal');
-        const checkoutOverlay = document.getElementById('checkoutOverlay');
+        const checkoutBtn = document.getElementById('checkoutBtn');
         const closeCheckoutBtn = document.getElementById('closeCheckoutBtn');
+        const checkoutOverlay = document.getElementById('checkoutOverlay');
 
         checkoutBtn.addEventListener('click', () => {
             if (cart.length === 0) {
-                showToast("حقيبتك فارغة، يرجى إضافة المنتجات أولاً للتأكيد", "info");
+                showToast('السلة فارغة! أضف بعض المنتجات أولاً.', 'info');
                 return;
             }
-            const sumPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-            document.getElementById('modalCheckoutTotal').textContent = `المجموع: ${sumPrice} ريال`;
-            cartDrawer.classList.add('hidden');
+            closeCart();
             checkoutModal.classList.remove('hidden');
         });
 
-        const closeCheckout = () => checkoutModal.classList.add('hidden');
+        function closeCheckout() { checkoutModal.classList.add('hidden'); }
         closeCheckoutBtn.addEventListener('click', closeCheckout);
         checkoutOverlay.addEventListener('click', closeCheckout);
 
-        // Form Submit
+        // Handle Order Submission
         function handleCheckoutSubmit(event) {
             event.preventDefault();
-            const sumPrice = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
-            
-            // Reset cart
+            showToast('تم استلام طلبك بنجاح! سنتصل بك قريباً للتأكيد.', 'success');
             cart = [];
             updateCartUI();
             closeCheckout();
+        }
 
-            // Success custom visual feedback without standard alert popup
-            showToast(`شكراً لك! لقد تم تسجيل طلبك بقيمة ${sumPrice} رسال بنجاح. سنتواصل معك هاتفياً لتأكيد الشحن فوراً!`, 'success');
+        // Live Product Search Filter
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase().trim();
+                const cards = document.querySelectorAll('#productGrid > div');
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    if (title.includes(term)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
         }
     </script>
 </body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <style>body { font-family: 'Cairo', sans-serif; }</style>
-</head>
-<body class="bg-neutral-950 text-white">
-
-    <!-- Hero Section -->
-    <section class="py-20 text-center bg-cover bg-center">
-        <h1 class="text-5xl font-bold mb-4">{STORE_TITLE}</h1>
-        <p class="text-xl mb-8">{STORE_SUBTITLE}</p>
-    </section>
-
-    <!-- Product Grid -->
-    <main class="container mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {PRODUCTS_GRID_HTML}
-        </div>
-    </main>
-
-</body>
-</html>"""
-system_prompt = (
-    "You are a World-Class Full-Stack Developer & High-Converting E-Commerce Copywriter.\n"
-    "Generate ONLY JSON matching the requested niche so it can be injected into the HTML_TEMPLATE.\n\n"
-    "Return JSON with these exact keys:\n"
-    "- 'STORE_TITLE': A catchy, persuasive Arabic title for the store.\n"
-    "- 'STORE_SUBTITLE': An engaging marketing subtitle in Arabic.\n"
-    "- 'PRODUCTS_GRID_HTML': 4 complete HTML cards using Tailwind CSS, featuring explicit Arabic product names, prices, discount badges (-25% OFF), rating stars, and dynamic Pollinations AI image URLs formatted as: https://image.pollinations.ai/prompt/[english-keyword]?width=800&height=600&nologo=true\n" )
+</html>\`;
