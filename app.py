@@ -1,62 +1,16 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import os
-import requests
-
-app = Flask(__name__)
-CORS(app)
-
-HF_TOKEN = os.environ.get("HF_TOKEN")
-# استخدام نموذج Llama 3 8B Instruct عبر Hugging Face Inference API
-MODEL_ID = "meta-llama/Meta-Llama-3-8B-Instruct"
-API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
-
-headers = {"Authorization": f"Bearer {HF_TOKEN}"}
-
-@app.route('/', methods=['GET'])
-def home():
-    return jsonify({"status": "online", "message": "AIWebCraft Backend with Llama-3 is ready!"})
-
-@app.route('/generate', methods=['POST'])
-def generate():
-    data = request.json or {}
-    user_prompt = data.get("prompt", "قم بإنشاء متجر إلكتروني احترافي")
-    
-    system_prompt = (
-        "You are an expert AI system for building e-commerce websites. "
-        "Generate a complete, modern HTML/CSS layout structure and copy for an online store based on the user request."
-    )
-    
-    formatted_prompt = f"<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n{system_prompt}<|eot_id|><|start_header_id|>user<|end_header_id|>\n{user_prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n"
-
-    payload = {
-        "inputs": formatted_prompt,
-        "parameters": {
-            "max_new_tokens": 1024,
-            "temperature": 0.7,
-            "return_full_text": False
-        }
-    }
-
-    try:
-        response = requests.post(API_URL, headers=headers, json=payload, timeout=30)
-        res_data = response.json()
-        
-        if isinstance(res_data, list) and len(res_data) > 0:
-            generated_text = res_data[0].get("generated_text", "")
-        elif "generated_text" in res_data:
-            generated_text = res_data["generated_text"]
-        else:
-            generated_text = str(res_data)
-
-        return jsonify({
-            "status": "success",
-            "result": generated_text
-        })
-        
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+system_prompt = (
+    "You are a World-Class UI/UX E-Commerce Designer. Generate FULL valid HTML using Tailwind CSS. "
+    "CRITICAL DESIGN RULES FOR ULTRA-MODERN STORES:\n"
+    "1. HERO SECTION: Must use vibrant gradients, glowing backdrops, action-driven CTA buttons with glow effects, and trust badges (e.g. 'شحن مجاني' | 'ضمان سنتين' | 'دفع عند الاستلام').\n"
+    "2. PRODUCT CARDS: Must include:\n"
+    "   - Sale badges (-25% OFF) floating on top-right of image.\n"
+    "   - Star ratings (e.g. ★★★★★ 4.9/5).\n"
+    "   - Glassmorphism borders (border border-white/10 background-neutral-900/50 backdrop-blur).\n"
+    "   - Micro-interactions on hover (hover:-translate-y-2 hover:border-orange-500/50 transition-all duration-300).\n"
+    "3. REQUIRED SECTIONS (DO NOT OMIT):\n"
+    "   - Features Grid (4 modern highlight cards with icons).\n"
+    "   - Customer Reviews / Social Proof with avatars and text.\n"
+    "   - FAQ Accordion section.\n"
+    "4. IMAGES: Use dynamic image links matching the product explicitly.\n"
+    "5. NO ALERTS: Use elegant toast notifications for cart actions."
+)
