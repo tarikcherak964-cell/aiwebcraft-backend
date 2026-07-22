@@ -1,3 +1,9 @@
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+# كود المتجر النهائي لي صاوبوه البوتات
+STORE_HTML = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +45,7 @@
 
     <!-- Hero Section -->
     <header class="relative h-[70vh] flex items-center justify-center text-center">
-        <img src="https://images.unsplash.com/photo-1687392946855-8e35efa25ad7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAxMTA0fDB8MXxzZWFyY2h8MXx8YWJzdHJhY3QlMjBkaWdpdGFsJTIwbWFya2V0aW5nJTIwZ3Jvd3RoJTIwb3JhbmdlJTIwYW5kJTIwYmxhY2slMjBsdXh1cnklMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc4NDY1NTk3MXww&ixlib=rb-4.1.0&q=80&w=1080" 
+        <img src="https://images.unsplash.com/photo-1687392946855-8e35efa25ad7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" 
              alt="Hero Background" 
              class="absolute inset-0 w-full h-full object-cover opacity-40">
         <div class="relative z-10 px-4">
@@ -61,7 +67,7 @@
             <!-- Item 1 -->
             <div class="glass p-6 rounded-3xl hover:border-orange-500 transition border border-transparent flex flex-col justify-between">
                 <div>
-                    <img src="https://images.unsplash.com/photo-1599930200736-01c254e529e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAxMTA0fDB8MXxzZWFyY2h8MXx8c2xlZWslMjBtb2Rlcm4lMjBpbnN0YWdyYW0lMjBpbnRlcmZhY2UlMjBkZXNpZ24lMjBvcmFuZ2UlMjBsaWdodGluZ3xlbnwwfHx8fDE3ODQ2NTU5NzB8MA&ixlib=rb-4.1.0&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="IG Pro Growth">
+                    <img src="https://images.unsplash.com/photo-1599930200736-01c254e529e8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="IG Pro Growth">
                     <h3 class="text-xl font-bold">IG Pro Growth</h3>
                     <p class="text-slate-400 text-sm mb-4">High-intent organic engagement.</p>
                 </div>
@@ -71,7 +77,7 @@
             <!-- Item 2 -->
             <div class="glass p-6 rounded-3xl hover:border-orange-500 transition border border-transparent flex flex-col justify-between">
                 <div>
-                    <img src="https://images.unsplash.com/photo-1596346599094-4dfa5c61fd0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAxMTA0fDB8MXxzZWFyY2h8MXx8dGlrdG9rJTIwdmlyYWwlMjB0cmVuZCUyMGFuYWx5dGljcyUyMHNtYXJ0cGhvbmUlMjBkaXNwbGF5fGVufDB8fHx8MTc4NDY1NTk3MHww&ixlib=rb-4.1.0&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="TikTok Viral">
+                    <img src="https://images.unsplash.com/photo-1596346599094-4dfa5c61fd0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="TikTok Viral">
                     <h3 class="text-xl font-bold">TikTok Viral</h3>
                     <p class="text-slate-400 text-sm mb-4">Fast-track to millions of views.</p>
                 </div>
@@ -81,7 +87,7 @@
             <!-- Item 3 -->
             <div class="glass p-6 rounded-3xl hover:border-orange-500 transition border border-transparent flex flex-col justify-between">
                 <div>
-                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAxMTA0fDB8MXxzZWFyY2h8MXx8eW91dHViZSUyMHNlbyUyMGFuYWx5dGljcyUyMGRhc2hib2FyZCUyMHByb2Zlc3Npb25hbHxlbnwwfHx8fDE3ODQ2NTU5NzF8MA&ixlib=rb-4.1.0&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="YT Authority">
+                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="YT Authority">
                     <h3 class="text-xl font-bold">YT Authority</h3>
                     <p class="text-slate-400 text-sm mb-4">Strategic channel development.</p>
                 </div>
@@ -91,7 +97,7 @@
             <!-- Item 4 -->
             <div class="glass p-6 rounded-3xl hover:border-orange-500 transition border border-transparent flex flex-col justify-between">
                 <div>
-                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMDAxMTA0fDB8MXxzZWFyY2h8MXx8eCUyMHR3aXR0ZXIlMjBicmFuZCUyMHByZXNlbmNlJTIwbWV0cmljcyUyMGRhdGF8ZW58MHx8fHwxNzg0NjU1NzF8DA&ixlib=rb-4.1.0&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="X Presence">
+                    <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080" class="rounded-2xl mb-4 h-48 w-full object-cover" alt="X Presence">
                     <h3 class="text-xl font-bold">X Presence</h3>
                     <p class="text-slate-400 text-sm mb-4">Thought leadership and growth.</p>
                 </div>
@@ -123,3 +129,11 @@
     </script>
 </body>
 </html>
+"""
+
+@app.route('/')
+def home():
+    return render_template_string(STORE_HTML)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
